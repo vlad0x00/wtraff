@@ -13,7 +13,7 @@ init_timers()
   // Set Timer2 (pin 11) to a faster PWM frequency
   TCCR2B = (TCCR2B & 0b11111000) | _BV(CS21);
 
-  msg_println("Timers prescaler set.");
+  msg_println(F("Timers prescaler set."));
 
   return true;
 }

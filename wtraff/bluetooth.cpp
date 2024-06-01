@@ -7,11 +7,11 @@ Bluetooth::Bluetooth(const int rx_pin, const int tx_pin, const int baud_rate)
   : serial(tx_pin, rx_pin)
 {
   serial.begin(baud_rate);
-  msg_println("Bluetooth initialized at tx pin ",
+  msg_println(F("Bluetooth initialized at tx pin "),
               tx_pin,
-              " and rx pin ",
+              F(" and rx pin "),
               rx_pin,
-              " at baud rate ",
+              F(" at baud rate "),
               baud_rate);
 }
 

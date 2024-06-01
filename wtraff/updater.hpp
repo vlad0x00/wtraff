@@ -43,10 +43,9 @@ inline void
 Updater<T, METHOD>::update()
 {
   if (current != end) {
-    (object.*METHOD)(current);
-
-    update_counter += 1;
     if (update_counter % update_period == 0) {
+      (object.*METHOD)(current);
+
       const auto sum = current + delta;
       if (delta < 0 && sum <= end || delta > 0 && sum >= end) {
         current = end;
@@ -54,6 +53,7 @@ Updater<T, METHOD>::update()
         current = sum;
       }
     }
+    update_counter += 1;
   }
 }
 

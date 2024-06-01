@@ -20,7 +20,7 @@ setup()
 {
   init_print();
   if (!init_timers()) {
-    msg_println("Failed to initialize timers.");
+    msg_println(F("Failed to initialize timers."));
   }
 
   new (traffic_light_buf) TrafficLight(LED_RED_PIN,

@@ -7,21 +7,38 @@ LED::LED(const int pin)
   : pin(pin)
 {
   pinMode(pin, OUTPUT);
-  msg_println("LED created at pin ", pin);
+  msg_println(F("LED created at pin "), pin);
 }
 
 [[nodiscard]] static uint8_t
 make_power_uniform(const uint8_t power)
 {
-  // TODO: Write the function to make power transition uniform.
-  return power;
+  static constexpr int MIN = 5;
+  static constexpr int MAX = 255;
+  static constexpr int STEPS[] = { 10, 20, 30, 40 };
+
+  // Normalize the input to the range 0-1
+  const auto normalized = static_cast<double>(power) / 255.0;
+
+  // Apply a quadratic transformation to create a non-uniform mapping
+  const auto transformed = normalized * normalized;
+
+  // Map the transformed input to the desired range 20-255
+  const auto output = static_cast<uint8_t>(MIN + transformed * (MAX - MIN));
+
+  return output;
 }
 
 void
 LED::set_power(const uint8_t power)
 {
-  msg_println("Setting LED ", pin, " power to ", power);
   const auto power_raw = make_power_uniform(power);
+  msg_println(F("Setting LED "),
+              pin,
+              F(" power to "),
+              power,
+              F(", power raw = "),
+              power_raw);
   analogWrite(pin, power_raw);
 }
 
