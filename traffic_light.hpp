@@ -1,24 +1,28 @@
 #ifndef WTRAFF_TRAFFIC_LIGHT_HPP
 #define WTRAFF_TRAFFIC_LIGHT_HPP
 
+#include "bluetooth.hpp"
 #include "led.hpp"
 #include "updater.hpp"
-#include "bluetooth.hpp"
 
 #include <stdint.h>
 
 namespace wtraff {
 
-class TrafficLight {
+class TrafficLight
+{
 
 public:
-
-  TrafficLight(int pin_red, int pin_yellow, int pin_green, int bluetooth_rx_pin, int bluetooth_tx_pin, int bluetooth_baudrate);
+  TrafficLight(int pin_red,
+               int pin_yellow,
+               int pin_green,
+               int bluetooth_rx_pin,
+               int bluetooth_tx_pin,
+               int bluetooth_baudrate);
 
   void work();
 
 private:
-
   LED red;
   LED yellow;
   LED green;
@@ -28,7 +32,6 @@ private:
   Updater<LED, &LED::set_power> green_updater;
 
   Bluetooth bluetooth;
-
 };
 
 } // namespace wtraff

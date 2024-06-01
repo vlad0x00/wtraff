@@ -7,19 +7,17 @@
 
 namespace wtraff {
 
-class LED {
+class LED
+{
 
 public:
-
   explicit LED(int pin);
 
   // Power is from 0 to 255.
   void set_power(uint8_t power);
 
 private:
-
   int pin;
-
 };
 
 } // namespace wtraff

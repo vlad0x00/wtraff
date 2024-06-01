@@ -7,10 +7,10 @@
 
 namespace wtraff {
 
-class Bluetooth {
+class Bluetooth
+{
 
 public:
-
   Bluetooth(int rx_pin, int tx_pin, int baud_rate);
 
   void write(uint8_t byte);
@@ -18,9 +18,7 @@ public:
   [[nodiscard]] uint16_t available();
 
 private:
-
   SoftwareSerial serial;
-
 };
 
 } // namespace wtraff

@@ -3,7 +3,12 @@
 
 namespace wtraff {
 
-TrafficLight::TrafficLight(const int pin_red, const int pin_yellow, const int pin_green, const int bluetooth_rx_pin, const int bluetooth_tx_pin, const int bluetooth_baudrate) 
+TrafficLight::TrafficLight(const int pin_red,
+                           const int pin_yellow,
+                           const int pin_green,
+                           const int bluetooth_rx_pin,
+                           const int bluetooth_tx_pin,
+                           const int bluetooth_baudrate)
   : red(pin_red)
   , yellow(pin_yellow)
   , green(pin_green)
@@ -11,9 +16,12 @@ TrafficLight::TrafficLight(const int pin_red, const int pin_yellow, const int pi
   , yellow_updater(yellow)
   , green_updater(green)
   , bluetooth(bluetooth_rx_pin, bluetooth_tx_pin, bluetooth_baudrate)
-{}
+{
+}
 
-void TrafficLight::work() {  
+void
+TrafficLight::work()
+{
   if (bluetooth.available() >= 5) {
     const auto led = bluetooth.read();
     const auto start = bluetooth.read();

@@ -3,7 +3,8 @@
 
 namespace wtraff {
 
-[[nodiscard]] bool init_timers();
+[[nodiscard]] bool
+init_timers();
 
 } // namespace wtraff
 
