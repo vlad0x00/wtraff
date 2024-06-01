@@ -16,24 +16,21 @@ public:
   {
   }
 
-  void set_vals(uint8_t start, uint8_t end, int16_t delta);
+  void set_vals(uint8_t end, int16_t delta);
   void update();
 
 private:
-  uint8_t current;
-  uint8_t end;
-  int16_t delta;
+  uint8_t current = 0;
+  uint8_t end = 0;
+  int16_t delta = 0;
 
   T& object;
 };
 
 template<typename T, void (T::*METHOD)(uint8_t)>
 inline void
-Updater<T, METHOD>::set_vals(const uint8_t start,
-                             const uint8_t end,
-                             const int16_t delta)
+Updater<T, METHOD>::set_vals(const uint8_t end, const int16_t delta)
 {
-  this->current = start;
   this->end = end;
   this->delta = delta;
 }

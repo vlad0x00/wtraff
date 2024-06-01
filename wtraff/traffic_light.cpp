@@ -24,7 +24,6 @@ TrafficLight::work()
 {
   if (bluetooth.available() >= 5) {
     const auto led = bluetooth.read();
-    const auto start = bluetooth.read();
     const auto end = bluetooth.read();
 
     const auto delta1 = bluetooth.read();
@@ -33,14 +32,14 @@ TrafficLight::work()
     const auto delta = (static_cast<int16_t>(delta1) << 8) | delta2;
 
     switch (led) {
-      case 'r':
-        red_updater.set_vals(start, end, delta);
+      case 0:
+        red_updater.set_vals(end, delta);
         break;
-      case 'y':
-        yellow_updater.set_vals(start, end, delta);
+      case 1:
+        yellow_updater.set_vals(end, delta);
         break;
-      case 'g':
-        green_updater.set_vals(start, end, delta);
+      case 2:
+        green_updater.set_vals(end, delta);
         break;
     }
   }

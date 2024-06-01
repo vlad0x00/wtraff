@@ -37,7 +37,7 @@ loop()
   traffic_light.work();
 }
 
-} // namespace wtrafft_timer_id;
+} // namespace wtraff
 
 void
 setup()
