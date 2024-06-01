@@ -1,6 +1,8 @@
 #include "led.hpp"
 #include "print.hpp"
 
+#include <math.h>
+
 namespace wtraff {
 
 LED::LED(const int pin)
@@ -21,7 +23,7 @@ make_power_uniform(const uint8_t power)
   const auto normalized = static_cast<double>(power) / 255.0;
 
   // Apply a quadratic transformation to create a non-uniform mapping
-  const auto transformed = normalized * normalized;
+  const auto transformed = pow(normalized, 1.5);
 
   // Map the transformed input to the desired range 20-255
   const auto output = static_cast<uint8_t>(MIN + transformed * (MAX - MIN));

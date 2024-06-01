@@ -3,6 +3,14 @@
 # You better ruuuun, ruuuun, ruuun, ruuuuuuun, ruun
 
 import bluetooth
+import time
+import keyboard
+
+bd_addr = "00:22:05:00:31:4D"
+port = 1
+current_red = 0
+current_yellow = 0
+current_green = 0
 
 def int_to_16bit_bytes(value):
     """
@@ -24,19 +32,62 @@ def int_to_16bit_bytes(value):
     # Convert to 2-byte representation using little-endian byte order
     return value.to_bytes(2, byteorder='big', signed=True)
 
+def send_data(data):
+    """
+    Send data via the Bluetooth socket.
+    
+    Args:
+        data (bytes): Data to send.
+    """
+    sock.send(data)
 
-bd_addr = "00:22:05:00:31:4D"
-port = 1
+def on_press(event):
+    """
+    Handle key press events.
+    
+    Args:
+        event (keyboard.KeyboardEvent): The keyboard event.
+    """
+    if event.name == 'q':
+        if current_green == 0:
+          data = bytes([0, 255] + list(int_to_16bit_bytes(3)))
+          current_green = 255
+        else:
+          data = bytes([0, 0] + list(int_to_16bit_bytes(-3)))
+          current_green = 0
+        sock.send(data)
+    elif event.name == 'w':
+        if current_yellow == 0:
+          data = bytes([1, 255] + list(int_to_16bit_bytes(3)))
+          current_yellow = 255
+        else:
+          data = bytes([1, 0] + list(int_to_16bit_bytes(-3)))
+          current_yellow = 0
+        sock.send(data)
+    elif event.name == 'e':
+        if current_red == 0:
+          data = bytes([2, 255] + list(int_to_16bit_bytes(3)))
+          current_red = 255
+        else:
+          data = bytes([2, 0] + list(int_to_16bit_bytes(-3)))
+          current_red = 0
+        sock.send(data)
+
+
 
 # Create a Bluetooth socket
 sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 sock.connect((bd_addr, port))
 
-# Data to be sent (3 bytes)
-data = bytes([0, 0] + list(int_to_16bit_bytes(-1)))  # Replace with the actual bytes you need to send
-
-# Send the data
+data = bytes(list(int_to_16bit_bytes(1000)))
 sock.send(data)
+
+# Set up the keyboard event listener
+keyboard.on_press(on_press)
+
+# Keep the program running to listen for events
+print("Press Q, W, or E to send data. Press ESC to exit.")
+keyboard.wait('esc')
 
 # Close the socket
 sock.close()
