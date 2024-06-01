@@ -32,8 +32,8 @@ port = 1
 sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 sock.connect((bd_addr, port))
 
-# Data to be sent (3 bytes)
-data = bytes([0, 255] + list(int_to_16bit_bytes(1)))  # Replace with the actual bytes you need to send
+# Data to be sent (2 bytes)
+data = bytes(list(int_to_16bit_bytes(1000)))  # Replace with the actual bytes you need to send
 
 # Send the data
 sock.send(data)

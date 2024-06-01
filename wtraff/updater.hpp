@@ -17,12 +17,15 @@ public:
   }
 
   void set_vals(uint8_t end, int16_t delta);
+  void set_update_period(const uint16_t period) { update_period = period; }
   void update();
 
 private:
   uint8_t current = 0;
   uint8_t end = 0;
   int16_t delta = 0;
+  uint16_t update_counter = 0;
+  uint16_t update_period = 10;
 
   T& object;
 };
@@ -42,11 +45,14 @@ Updater<T, METHOD>::update()
   if (current != end) {
     (object.*METHOD)(current);
 
-    const auto sum = current + delta;
-    if (delta < 0 && sum <= end || delta > 0 && sum >= end) {
-      current = end;
-    } else {
-      current = sum;
+    update_counter += 1;
+    if (update_counter % update_period == 0) {
+      const auto sum = current + delta;
+      if (delta < 0 && sum <= end || delta > 0 && sum >= end) {
+        current = end;
+      } else {
+        current = sum;
+      }
     }
   }
 }

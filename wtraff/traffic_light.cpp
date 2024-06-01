@@ -17,6 +17,15 @@ TrafficLight::TrafficLight(const int pin_red,
   , green_updater(green)
   , bluetooth(bluetooth_rx_pin, bluetooth_tx_pin, bluetooth_baudrate)
 {
+  if (bluetooth.available() >= 2) {
+    const auto update_period1 = bluetooth.read();
+    const auto update_period2 = bluetooth.read();
+
+    const auto update_period = (update_period1 << 8) | update_period2;
+    red_updater.set_update_period(update_period);
+    yellow_updater.set_update_period(update_period);
+    green_updater.set_update_period(update_period);
+  }
 }
 
 void
@@ -31,7 +40,8 @@ TrafficLight::work()
     // Combine deltas into a single value
     const auto delta = (static_cast<int16_t>(delta1) << 8) | delta2;
 
-    msg_println("Received data. LED = ", led, ", end = ", end, ", delta = ", delta);
+    msg_println(
+      "Received data. LED = ", led, ", end = ", end, ", delta = ", delta);
 
     switch (led) {
       case 0:
