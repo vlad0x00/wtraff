@@ -13,7 +13,7 @@ class TrafficLight {
 
 public:
 
-  TrafficLight(int pin_red, int pin_yellow, int pin_green);
+  TrafficLight(int pin_red, int pin_yellow, int pin_green, int bluetooth_rx_pin, int bluetooth_tx_pin, int bluetooth_baudrate);
 
   void work();
 
@@ -26,6 +26,8 @@ private:
   Updater<LED, &LED::set_power> red_updater;
   Updater<LED, &LED::set_power> yellow_updater;
   Updater<LED, &LED::set_power> green_updater;
+
+  Bluetooth bluetooth;
 
 };
 

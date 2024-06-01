@@ -37,7 +37,7 @@ Updater<T, METHOD>::set_vals(const uint8_t start, const uint8_t end, const int16
 template<typename T, void (T::*METHOD)(uint8_t)>
 inline void
 Updater<T, METHOD>::update() {
-  if (current < end) {
+  if (current != end) {
     (object.*METHOD)(current);
     
     const auto sum = current + delta;

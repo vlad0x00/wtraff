@@ -1,22 +1,38 @@
-#include "bluetooth.hpp"
 #include "traffic_light.hpp"
 #include "config.hpp"
 #include "print.hpp"
+#include "timers.hpp"
+
+// Define the placement new operator
+void* operator new(const size_t size, void* const ptr)
+{
+  return ptr;
+}
+
+namespace wtraff {
+
+uint8_t traffic_light_buf[sizeof(wtraff::TrafficLight)];
+TrafficLight& traffic_light = *(wtraff::TrafficLight*)traffic_light_buf;
 
 void setup() {
-  wtraff::init_print();
-  wtraff::Bluetooth bluetooth(wtraff::BLUETOOTH_RX_PIN, wtraff::BLUETOOTH_TX_PIN, wtraff::BLUETOOTH_BAUD_RATE);
+  init_print();
+  if (!init_timers()) {
+    msg_println("Failed to initialize timers.");
+  }
+
+  new (traffic_light_buf) TrafficLight(LED_RED_PIN, LED_YELLOW_PIN, LED_GREEN_PIN, BLUETOOTH_RX_PIN, BLUETOOTH_TX_PIN, BLUETOOTH_BAUD_RATE);
 }
 
 void loop() {
-  //if (bluetooth.available()) {
-  //  const auto b = bluetooth.read();
-  //  Serial.write(b);
-  //}
+  traffic_light.work();
+}
 
-  // Check if data is available from the serial monitor
-  //if (Serial.available()) {
-  //  const auto b = Serial.read();
-  //  bluetooth.write(b); // Send the received data to HC-06
- // }
+} // namespace wtrafft_timer_id;
+
+void setup() {
+  wtraff::setup();
+}
+
+void loop() {
+  wtraff::loop();
 }

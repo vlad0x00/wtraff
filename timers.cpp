@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 
+namespace wtraff {
+
 bool init_timers() {
   // Set Timer1 (pins 9 and 10) to a faster PWM frequency
   TCCR1B = (TCCR1B & 0b11111000) | _BV(CS11);
@@ -13,3 +15,5 @@ bool init_timers() {
 
   return true;
 }
+
+} // namespace wtraff

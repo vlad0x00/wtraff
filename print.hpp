@@ -7,7 +7,7 @@
 
 namespace wtraff {
 
-[[nodiscard]] inline bool
+inline void
 init_print()
 {
   if constexpr (PRINT_DEBUG) {
@@ -17,7 +17,6 @@ init_print()
     Serial.print("Print initialized at baud rate ");
     Serial.println(SERIAL_BAUD_RATE);
   }
-  return true;
 }
 
 template<typename... T>
