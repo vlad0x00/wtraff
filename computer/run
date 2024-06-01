@@ -4,13 +4,39 @@
 
 import bluetooth
 
-bd_addr = "00:22:05:00:31:4D"
+def int_to_16bit_bytes(value):
+    """
+    Convert a given integer to a 2-byte representation if it fits in a 16-bit signed integer range.
 
+    Args:
+        value (int): The integer value to convert.
+
+    Returns:
+        bytes: A 2-byte representation of the integer.
+
+    Raises:
+        ValueError: If the integer is out of the 16-bit signed integer range.
+    """
+    # 16-bit signed integer range: -32768 to 32767
+    if value < -32768 or value > 32767:
+        raise ValueError("Integer out of range for 16-bit signed integer.")
+
+    # Convert to 2-byte representation using little-endian byte order
+    return value.to_bytes(2, byteorder='big', signed=True)
+
+
+bd_addr = "00:22:05:00:31:4D"
 port = 1
 
+# Create a Bluetooth socket
 sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 sock.connect((bd_addr, port))
 
-sock.send("testzor")
+# Data to be sent (3 bytes)
+data = bytes([0, 0] + list(int_to_16bit_bytes(-1)))  # Replace with the actual bytes you need to send
 
+# Send the data
+sock.send(data)
+
+# Close the socket
 sock.close()

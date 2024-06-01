@@ -22,7 +22,7 @@ TrafficLight::TrafficLight(const int pin_red,
 void
 TrafficLight::work()
 {
-  if (bluetooth.available() >= 5) {
+  if (bluetooth.available() >= 4) {
     const auto led = bluetooth.read();
     const auto end = bluetooth.read();
 
@@ -30,6 +30,8 @@ TrafficLight::work()
     const auto delta2 = bluetooth.read();
     // Combine deltas into a single value
     const auto delta = (static_cast<int16_t>(delta1) << 8) | delta2;
+
+    msg_println("Received data. LED = ", led, ", end = ", end, ", delta = ", delta);
 
     switch (led) {
       case 0:
