@@ -94,7 +94,7 @@ def wtraff_updater():
     assert light_delta1 > 0
     assert light_delta2 < 0
 
-    sleep_duration = (math.pow(1.05 - bpm_intensity, 2.0)) * 2.0
+    sleep_duration = (math.pow(1.05 - bpm_intensity, 1.7)) * 2.0
 
     pitch_intesity = (current_pitch - pitch_range[0]) / (pitch_range[1] - pitch_range[0])
 

@@ -54,7 +54,7 @@ Updater<T, METHOD>::update()
     }
   } else if (end > 0) {
     end = 0;
-    delta = static_cast<int16_t>(-1.5 * delta);
+    delta = static_cast<int16_t>(-2.0 * delta);
   }
   update_counter += 1;
 }
