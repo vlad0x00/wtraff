@@ -42,10 +42,9 @@ template<typename T, void (T::*METHOD)(uint8_t)>
 inline void
 Updater<T, METHOD>::update()
 {
+  (object.*METHOD)(current);
   if (current != end) {
     if (update_counter % update_period == 0) {
-      (object.*METHOD)(current);
-
       const auto sum = current + delta;
       if (delta < 0 && sum <= end || delta > 0 && sum >= end) {
         current = end;
@@ -53,8 +52,11 @@ Updater<T, METHOD>::update()
         current = sum;
       }
     }
-    update_counter += 1;
+  } else if (end > 0) {
+    end = 0;
+    delta = static_cast<int16_t>(-1.5 * delta);
   }
+  update_counter += 1;
 }
 
 } // namespace wtraff

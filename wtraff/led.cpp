@@ -15,7 +15,7 @@ LED::LED(const int pin)
 [[nodiscard]] static uint8_t
 make_power_uniform(const uint8_t power)
 {
-  static constexpr int MIN = 5;
+  static constexpr int MIN = 10;
   static constexpr int MAX = 255;
   static constexpr int STEPS[] = { 10, 20, 30, 40 };
 
@@ -23,7 +23,7 @@ make_power_uniform(const uint8_t power)
   const auto normalized = static_cast<double>(power) / 255.0;
 
   // Apply a quadratic transformation to create a non-uniform mapping
-  const auto transformed = pow(normalized, 1.5);
+  const auto transformed = pow(normalized, 2.0);
 
   // Map the transformed input to the desired range 20-255
   const auto output = static_cast<uint8_t>(MIN + transformed * (MAX - MIN));
